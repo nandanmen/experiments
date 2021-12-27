@@ -30,21 +30,19 @@ const material = new THREE.MeshBasicMaterial({
  * A mesh is an object in THREE - it's a combination of a geometry (the shape
  * of the object) and a material (how it looks).
  */
-const mesh = new THREE.Mesh(geometry, material);
+const box1 = new THREE.Mesh(geometry, material);
+box1.position.x = -1.2;
 
-/**
- * The position property is a 3D vector. All classes that inherit from the
- * Object3D class has access to this property, and a few others:
- *
- * - scale (to resize the object)
- * - rotation (to rotate the object)
- *   - Rotations are defined in radians instead of degrees
- * - quaternion (also to rotate the object) (is this a quantum physics thing?)
- */
-mesh.position.x = 3;
+const box2 = new THREE.Mesh(geometry, material);
+
+const box3 = new THREE.Mesh(geometry, material);
+box3.position.x = 1.2;
+
+const group = new THREE.Group();
+group.add(box1, box2, box3);
 
 // We register the mesh in the scene so that it's visible
-scene.add(mesh);
+scene.add(group);
 
 const canvasSize = {
   width: 800,
@@ -73,7 +71,7 @@ camera.position.z = 3;
  * parameter. Since other objects' `position` property is also a Vector3, you
  * can pass it to the `lookAt` method to make the camera look at that object.
  */
-camera.lookAt(mesh.position);
+camera.lookAt(group.position);
 
 scene.add(camera);
 
@@ -94,7 +92,7 @@ renderer.render(scene, camera);
 const slider = document.getElementById("x-slider") as HTMLInputElement;
 slider.addEventListener("input", () => {
   const newXPosition = slider.valueAsNumber;
-  mesh.position.x = newXPosition;
-  camera.lookAt(mesh.position);
+  group.position.x = newXPosition;
+  camera.lookAt(group.position);
   renderer.render(scene, camera);
 });
