@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background: var(--gray2);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.motion {
+  width: 80px;
+  height: 80px;
+  background: var(--green7);
+  position: absolute;
+}
+
+.container {
+  position: relative;
+  background: var(--gray5);
+  width: 30vw;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  margin-top: 16px;
+}
