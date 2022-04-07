@@ -8,7 +8,7 @@ export function App() {
   const [isOn, toggle] = React.useReducer((state) => !state, false);
 
   React.useLayoutEffect(() => {
-    console.log(ref.current.style.transform, ref.current.style.transformOrigin);
+    console.log(ref.current.style.transform);
   });
 
   return (
@@ -22,15 +22,14 @@ export function App() {
               ? {
                   bottom: "32px",
                   right: "32px",
-                  width: "160px",
-                  height: "160px",
                   borderRadius: "8px",
+                  width: "160px",
                 }
               : { top: "32px", left: "32px", borderRadius: "8px" }
           }
         />
       </div>
-      <div class="container">
+      <div className="container">
         <motion.div
           ref={ref}
           layout
@@ -40,9 +39,8 @@ export function App() {
               ? {
                   bottom: "32px",
                   right: "32px",
-                  width: "160px",
-                  height: "160px",
                   borderRadius: "8px",
+                  width: "160px",
                 }
               : { top: "32px", left: "32px", borderRadius: "8px" }
           }

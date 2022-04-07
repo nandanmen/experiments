@@ -39,19 +39,18 @@ function isBoxDifferent(box, lastBox) {
 }
 
 function transformElement({ el, from, to }) {
-  const { deltaX, deltaY, deltaWidth, deltaHeight } = getDelta({ from, to });
+  const { deltaX, deltaY, deltaWidth, deltaHeight, diffWidth, diffHeight } =
+    getDelta({ from, to });
 
-  console.log(
-    `translate(${deltaX * -1}px, ${deltaY * -1}px) scaleX(${
-      1 / deltaWidth
-    }) scaleY(${1 / deltaHeight})`
-  );
+  const diff = {
+    x: (deltaX + diffWidth / 2) * -1,
+    y: (deltaY + diffHeight / 2) * -1,
+    width: 1 / deltaWidth,
+    height: 1 / deltaHeight,
+  };
 
   // We multiply by -1 to inverse the translation
-  el.style.transformOrigin = "top left";
-  el.style.transform = `translate(${deltaX * -1}px, ${deltaY * -1}px) scaleX(${
-    1 / deltaWidth
-  }) scaleY(${1 / deltaHeight})`;
+  el.style.transform = `translate(${diff.x}px, ${diff.y}px) scaleX(${diff.width}) scaleY(${diff.height})`;
 }
 
 function animateElement({ el, from, to, onDone }) {
@@ -86,5 +85,7 @@ function getDelta({ from, to }) {
     deltaY: lastY - y,
     deltaWidth: lastWidth / width,
     deltaHeight: lastHeight / height,
+    diffWidth: lastWidth - width,
+    diffHeight: lastHeight - height,
   };
 }
