@@ -7,10 +7,6 @@ export function App() {
   const ref = React.useRef();
   const [isOn, toggle] = React.useReducer((state) => !state, false);
 
-  React.useLayoutEffect(() => {
-    console.log(ref.current.style.transform);
-  });
-
   return (
     <>
       <button onClick={toggle}>Toggle</button>
