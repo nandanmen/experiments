@@ -23,7 +23,9 @@ export function App() {
                 }
               : { top: "32px", left: "32px", borderRadius: "8px" }
           }
-        />
+        >
+          <p>Hello!</p>
+        </Motion>
       </div>
       <div className="container">
         <motion.div
@@ -41,7 +43,9 @@ export function App() {
               : { top: "32px", left: "32px", borderRadius: "8px" }
           }
           transition={{ duration: 1.5 }}
-        />
+        >
+          <motion.p layout="position">Hello!</motion.p>
+        </motion.div>
       </div>
     </>
   );

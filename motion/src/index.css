@@ -20,6 +20,7 @@ body {
   aspect-ratio: 1;
   background: var(--green7);
   position: absolute;
+  padding: 8px;
 }
 
 .container {
@@ -29,4 +30,9 @@ body {
   aspect-ratio: 1;
   border-radius: 8px;
   margin-top: 16px;
+}
+
+p {
+  font-family: 'Cal sans';
+  font-size: 20px;
 }
