@@ -1,9 +1,14 @@
 import React from "react";
 import { animate } from "popmotion";
 
+const MotionContext = React.createContext();
+
 export function Motion(props) {
   const ref = React.useRef();
   const lastRect = React.useRef();
+  const ctx = React.useContext(MotionContext);
+
+  console.log(ctx);
 
   React.useLayoutEffect(() => {
     const box = ref.current.getBoundingClientRect();
@@ -24,7 +29,11 @@ export function Motion(props) {
     lastRect.current = box;
   });
 
-  return <div ref={ref} {...props} />;
+  return (
+    <MotionContext.Provider>
+      <div ref={ref} {...props} />
+    </MotionContext.Provider>
+  );
 }
 
 function isBoxDifferent(box, lastBox) {
@@ -40,6 +49,9 @@ function invert({ el, from, to }) {
   const { x, y, width, height } = to;
 
   const transform = {
+    /**
+     * i _think_ its not divided by 2 but by wherever the transform origin is
+     */
     x: x - fromX - (fromWidth - width) / 2,
     y: y - fromY - (fromHeight - height) / 2,
     scaleX: width / fromWidth,

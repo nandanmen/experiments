@@ -10,4 +10,13 @@ Framer Motion's layout animations animates both the component's **position** as 
 
 ### Can't We Do This With CSS?
 
+---
 
+- it looks like framer motion uses a projection tree to define its layout animations: https://cs.github.com/framer/motion/blob/4cc398a530606fd5cec7750f73fe39160e139f04/packages/framer-motion/src/projection/node/create-projection-node.ts#L52
+  - the projection node is created on render through the `useProjection` hook: https://cs.github.com/framer/motion/blob/b784fb6a48de15a49c3e28019a5dec864aa8e7a7/packages/framer-motion/src/motion/features/use-projection.ts
+
+what's the problem with using context?
+  - the transform calculation is done in an effect, but we need to pass it to context at render
+  - one way to do this is to set the state during the effect calculation
+  - but because our effect runs on every render, this will "terminate" the existing calculation and rerun the effect
+  - we might end up with an infinite loop here, so we want to make sure that setting the state in the transform like this doesn't re-run the effect
