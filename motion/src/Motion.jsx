@@ -9,18 +9,15 @@ export function Motion(props) {
     const box = ref.current.getBoundingClientRect();
 
     if (isBoxDifferent(box, lastRect.current)) {
-      transformElement({
+      const transform = invert({
         el: ref.current,
         from: box,
         to: lastRect.current,
       });
-      animateElement({
+
+      play({
         el: ref.current,
-        from: lastRect.current,
-        to: box,
-        onDone: () => {
-          lastRect.current = box;
-        },
+        transform,
       });
     }
 
@@ -38,46 +35,35 @@ function isBoxDifferent(box, lastBox) {
   return JSON.stringify(box) !== JSON.stringify(lastBox);
 }
 
-function transformElement({ el, from, to }) {
-  const diff = getDelta({ from, to });
+function invert({ el, from, to }) {
+  const { x: fromX, y: fromY, width: fromWidth, height: fromHeight } = from;
+  const { x, y, width, height } = to;
+
+  const transform = {
+    x: x - fromX - (fromWidth - width) / 2,
+    y: y - fromY - (fromHeight - height) / 2,
+    scaleX: width / fromWidth,
+    scaleY: height / fromHeight,
+  };
 
   // We multiply by -1 to inverse the translation
-  el.style.transform = `translate(${diff.x}px, ${diff.y}px) scaleX(${diff.width}) scaleY(${diff.height})`;
+  el.style.transform = `translate(${transform.x}px, ${transform.y}px) scaleX(${transform.scaleX}) scaleY(${transform.scaleY})`;
+
+  return transform;
 }
 
-function animateElement({ el, from, to, onDone }) {
-  const diff = getDelta({ from: to, to: from });
+function play({ el, transform }) {
   animate({
-    from: diff,
+    from: transform,
     to: {
       x: 0,
       y: 0,
-      height: 1,
-      width: 1,
+      scaleX: 1,
+      scaleY: 1,
     },
-    onUpdate: ({ x, y, height, width }) => {
-      el.style.transform = `translate(${x}px, ${y}px) scaleX(${width}) scaleY(${height})`;
+    onUpdate: ({ x, y, scaleY, scaleX }) => {
+      el.style.transform = `translate(${x}px, ${y}px) scaleX(${scaleX}) scaleY(${scaleY})`;
     },
-    onComplete: onDone,
     duration: 1500,
   });
-}
-
-function getDelta({ from, to }) {
-  const { x, y, width, height } = to;
-  const { x: lastX, y: lastY, width: lastWidth, height: lastHeight } = from;
-
-  const deltaX = lastX - x,
-    deltaY = lastY - y,
-    deltaWidth = lastWidth / width,
-    deltaHeight = lastHeight / height,
-    diffWidth = lastWidth - width,
-    diffHeight = lastHeight - height;
-
-  return {
-    x: (deltaX + diffWidth / 2) * -1,
-    y: (deltaY + diffHeight / 2) * -1,
-    width: 1 / deltaWidth,
-    height: 1 / deltaHeight,
-  };
 }

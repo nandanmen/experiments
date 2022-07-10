@@ -9,9 +9,6 @@ html {
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
 }
 
@@ -23,6 +20,23 @@ body {
   padding: 8px;
 }
 
+.wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+.relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reference {
+  background: var(--green4);
+  border: 2px dashed var(--green7);
+}
+
 .container {
   position: relative;
   background: var(--gray5);
@@ -32,7 +46,8 @@ body {
   margin-top: 16px;
 }
 
-p {
-  font-family: 'Cal sans';
-  font-size: 20px;
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
